@@ -5,211 +5,263 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Caro Game</title>
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Segoe UI", sans-serif;
-    }
-    body {
-        min-height: 100vh;
-        background: linear-gradient(135deg, #ffdff0, #dff4ff, #e8e0ff);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #66566f;
-        padding: 20px;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(
+        135deg,
+        #ffdce8,
+        #dff4ff,
+        #eee5ff
+    );
+    color: #62566b;
+    padding: 20px;
+}
+.container {
+    width: 100%;
+    max-width: 850px;
+    background: rgba(255,255,255,0.82);
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow:
+        0 15px 40px rgba(120,100,140,0.18);
+    text-align: center;
+}
+h1 {
+    font-size: 42px;
+    color: #d477a4;
+    margin-bottom: 10px;
+}
+.subtitle {
+    color: #93859b;
+    margin-bottom: 25px;
+}
+/* ================= MENU ================= */
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.mode-btn {
+    width: 280px;
+    padding: 16px;
+    border: none;
+    border-radius: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #62566b;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.mode-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(120,100,140,0.15);
+}
+.player-btn {
+    background: #ffd1e2;
+}
+.ai-btn {
+    background: #cfeeff;
+}
+/* ================= GAME ================= */
+#game {
+    display: none;
+}
+.info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff2f8;
+    padding: 14px 18px;
+    border-radius: 16px;
+    margin-bottom: 18px;
+    font-weight: bold;
+}
+#turn {
+    color: #d477a4;
+}
+/* ================= BOARD ================= */
+.board-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 5px;
+}
+#board {
+    display: grid;
+    grid-template-columns: repeat(15, 38px);
+    grid-template-rows: repeat(15, 38px);
+    gap: 2px;
+    width: max-content;
+    margin: auto;
+    padding: 5px;
+    background: #d6c6dc;
+    border-radius: 15px;
+}
+.cell {
+    width: 38px;
+    height: 38px;
+    border: none;
+    background: #fffafd;
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: 0.15s;
+}
+.cell:hover {
+    background: #ffe7f1;
+}
+.cell.x {
+    color: #e58bad;
+}
+.cell.o {
+    color: #78b7dc;
+}
+/* ================= RESULT ================= */
+#result {
+    display: none;
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 18px;
+    font-size: 25px;
+    font-weight: bold;
+    background: #fff1f7;
+    color: #d477a4;
+}
+/* ================= BUTTON ================= */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+.control-btn {
+    border: none;
+    padding: 12px 22px;
+    border-radius: 15px;
+    background: #e7ddff;
+    color: #62566b;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.control-btn:hover {
+    transform: scale(1.04);
+}
+#message {
+    margin-top: 12px;
+    min-height: 25px;
+    color: #9b7195;
+    font-weight: bold;
+}
+/* ================= MOBILE ================= */
+@media (max-width: 600px) {
     .container {
-        width: 100%;
-        max-width: 850px;
-        background: rgba(255,255,255,0.75);
-        backdrop-filter: blur(15px);
-        border-radius: 30px;
-        padding: 25px;
-        box-shadow: 0 15px 40px rgba(120,100,140,0.18);
-        text-align: center;
+        padding: 18px;
     }
     h1 {
-        color: #d982ad;
-        font-size: 38px;
-        margin-bottom: 8px;
-    }
-    .subtitle {
-        color: #9b8ba3;
-        margin-bottom: 20px;
-    }
-    /* MENU */
-    #menu {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-    }
-    .mode-btn {
-        width: 280px;
-        padding: 16px;
-        border: none;
-        border-radius: 18px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-        color: #66566f;
-    }
-    .mode-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 7px 15px rgba(120,100,140,0.15);
-    }
-    .two-player {
-        background: #ffd1e3;
-    }
-    .ai-player {
-        background: #cfeeff;
-    }
-    /* GAME */
-    #game {
-        display: none;
-    }
-    .info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #fff4fa;
-        padding: 12px 18px;
-        border-radius: 15px;
-        margin-bottom: 15px;
-        font-weight: bold;
-    }
-    #turn {
-        color: #d477a4;
-    }
-    #board-wrapper {
-        overflow: auto;
-        max-width: 100%;
-        padding: 8px;
+        font-size: 32px;
     }
     #board {
-        display: grid;
-        grid-template-columns: repeat(15, 38px);
-        grid-template-rows: repeat(15, 38px);
-        gap: 2px;
-        background: #d9c5dc;
-        padding: 5px;
-        border-radius: 15px;
-        width: max-content;
-        margin: auto;
+        grid-template-columns: repeat(15, 30px);
+        grid-template-rows: repeat(15, 30px);
     }
     .cell {
-        width: 38px;
-        height: 38px;
-        border: none;
-        background: #fffafd;
-        cursor: pointer;
-        font-size: 24px;
-        font-weight: bold;
-        transition: 0.15s;
-    }
-    .cell:hover {
-        background: #ffe8f2;
-    }
-    .x {
-        color: #e78caf;
-    }
-    .o {
-        color: #82bfe0;
-    }
-    .buttons {
-        margin-top: 18px;
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    .control-btn {
-        border: none;
-        padding: 11px 20px;
-        border-radius: 14px;
-        cursor: pointer;
-        font-weight: bold;
-        color: #66566f;
-        background: #e8ddff;
-        transition: 0.2s;
-    }
-    .control-btn:hover {
-        transform: scale(1.04);
-    }
-    #message {
-        margin-top: 15px;
+        width: 30px;
+        height: 30px;
         font-size: 20px;
-        font-weight: bold;
-        min-height: 28px;
-        color: #9c6c91;
     }
-    @media(max-width:500px) {
-        .container {
-            padding: 15px;
-        }
-        h1 {
-            font-size: 30px;
-        }
-        #board {
-            grid-template-columns: repeat(15, 30px);
-            grid-template-rows: repeat(15, 30px);
-        }
-        .cell {
-            width: 30px;
-            height: 30px;
-            font-size: 19px;
-        }
+    .info {
+        font-size: 14px;
     }
+}
 </style>
 </head>
 <body>
 <div class="container">
     <h1>Caro Game</h1>
-    <p class="subtitle">Cùng chơi Caro thật vui nhé!</p>
-    <!-- MENU -->
+    <p class="subtitle">
+        Chọn chế độ chơi
+    </p>
+    <!-- ================= MENU ================= -->
     <div id="menu">
-        <button class="mode-btn two-player" onclick="startGame('pvp')">
-            👥 2 Người chơi
+        <button
+            class="mode-btn player-btn"
+            onclick="startGame('pvp')">
+            2 người chơi
         </button>
-        <button class="mode-btn ai-player" onclick="startGame('ai')">
-            🤖 Chơi với AI
+        <button
+            class="mode-btn ai-btn"
+            onclick="startGame('ai')">
+            Chơi với AI
         </button>
     </div>
-    <!-- GAME -->
+    <!-- ================= GAME ================= -->
     <div id="game">
         <div class="info">
-            <span>Chế độ: <span id="modeText"></span></span>
-            <span id="turn">Lượt: X</span>
+            <span>
+                Chế độ:
+                <span id="modeText"></span>
+            </span>
+            <span id="turn">
+                Lượt: X
+            </span>
         </div>
-        <div id="board-wrapper">
+        <div class="board-container">
             <div id="board"></div>
         </div>
         <div id="message"></div>
+        <div id="result"></div>
         <div class="buttons">
-            <button class="control-btn" onclick="resetGame()">
-                🔄 Chơi lại
+            <button
+                class="control-btn"
+                onclick="resetGame()">
+                Chơi lại
             </button>
-            <button class="control-btn" onclick="backMenu()">
-                🏠 Menu
+            <button
+                class="control-btn"
+                onclick="backToMenu()">
+                Menu
             </button>
         </div>
     </div>
 </div>
 <script>
+/* =========================
+        GAME SETTINGS
+========================= */
 const SIZE = 15;
 let board = [];
 let currentPlayer = "X";
 let gameMode = "";
 let gameOver = false;
-const boardElement = document.getElementById("board");
-const menu = document.getElementById("menu");
-const game = document.getElementById("game");
-const turnText = document.getElementById("turn");
-const message = document.getElementById("message");
-const modeText = document.getElementById("modeText");
+/* =========================
+        ELEMENTS
+========================= */
+const boardElement =
+    document.getElementById("board");
+const menu =
+    document.getElementById("menu");
+const game =
+    document.getElementById("game");
+const turnText =
+    document.getElementById("turn");
+const modeText =
+    document.getElementById("modeText");
+const message =
+    document.getElementById("message");
+const result =
+    document.getElementById("result");
 /* =========================
         START GAME
 ========================= */
@@ -217,8 +269,13 @@ function startGame(mode) {
     gameMode = mode;
     menu.style.display = "none";
     game.style.display = "block";
-    modeText.textContent =
-        mode === "pvp" ? "👥 2 Người" : "🤖 AI";
+    if (mode === "pvp") {
+        modeText.textContent =
+            "2 người chơi";
+    } else {
+        modeText.textContent =
+            "Chơi với AI";
+    }
     resetGame();
 }
 /* =========================
@@ -227,11 +284,13 @@ function startGame(mode) {
 function resetGame() {
     board = [];
     for (let i = 0; i < SIZE; i++) {
-        board[i] = Array(SIZE).fill("");
+        board[i] =
+            Array(SIZE).fill("");
     }
     currentPlayer = "X";
     gameOver = false;
     message.textContent = "";
+    result.style.display = "none";
     updateTurn();
     drawBoard();
 }
@@ -240,21 +299,22 @@ function resetGame() {
 ========================= */
 function drawBoard() {
     boardElement.innerHTML = "";
-    for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-            const cell = document.createElement("button");
+    for (let row = 0; row < SIZE; row++) {
+        for (let col = 0; col < SIZE; col++) {
+            const cell =
+                document.createElement("button");
             cell.className = "cell";
-            cell.dataset.row = r;
-            cell.dataset.col = c;
-            if (board[r][c] === "X") {
-                cell.textContent = "×";
+            if (board[row][col] === "X") {
+                cell.textContent = "X";
                 cell.classList.add("x");
             }
-            if (board[r][c] === "O") {
-                cell.textContent = "○";
+            else if (board[row][col] === "O") {
+                cell.textContent = "O";
                 cell.classList.add("o");
             }
-            cell.onclick = () => playerMove(r, c);
+            cell.onclick = function() {
+                playerMove(row, col);
+            };
             boardElement.appendChild(cell);
         }
     }
@@ -265,16 +325,25 @@ function drawBoard() {
 function playerMove(row, col) {
     if (gameOver) return;
     if (board[row][col] !== "") return;
-    // Nếu đang chơi với AI và tới lượt AI
-    if (gameMode === "ai" && currentPlayer === "O") return;
+    /* AI đang suy nghĩ */
+    if (
+        gameMode === "ai" &&
+        currentPlayer === "O"
+    ) {
+        return;
+    }
     makeMove(row, col, currentPlayer);
     if (gameOver) return;
-    // AI đi sau X
-    if (gameMode === "ai" && currentPlayer === "O") {
-        updateTurn();
-        setTimeout(() => {
+    /* AI */
+    if (
+        gameMode === "ai" &&
+        currentPlayer === "O"
+    ) {
+        message.textContent =
+            "AI đang suy nghĩ...";
+        setTimeout(function() {
             aiMove();
-        }, 350);
+        }, 400);
     }
 }
 /* =========================
@@ -283,40 +352,70 @@ function playerMove(row, col) {
 function makeMove(row, col, player) {
     board[row][col] = player;
     drawBoard();
+    /* KIỂM TRA THẮNG */
     if (checkWin(row, col, player)) {
         gameOver = true;
-        if (player === "X") {
-            message.textContent =
-                gameMode === "ai"
-                ? "🎉 Bạn thắng rồi!"
-                : "🎉 Người chơi X thắng!";
-        } else {
-            message.textContent =
-                "🤖 AI thắng! Thử lại nhé!";
-        }
-        turnText.textContent = "🏆 Kết thúc";
+        showResult(player);
         return;
     }
+    /* KIỂM TRA HÒA */
     if (checkDraw()) {
         gameOver = true;
-        message.textContent = "🤍 Hòa rồi!";
-        turnText.textContent = "🤍 Hòa";
+        result.textContent = "HÒA!";
+        result.style.display = "block";
+        turnText.textContent = "Kết thúc";
+        message.textContent = "";
         return;
     }
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
+    /* Đổi lượt */
+    currentPlayer =
+        currentPlayer === "X"
+        ? "O"
+        : "X";
     updateTurn();
+    message.textContent = "";
+}
+/* =========================
+        SHOW RESULT
+========================= */
+function showResult(player) {
+    result.style.display = "block";
+    if (gameMode === "ai") {
+        if (player === "X") {
+            result.textContent =
+                "BẠN THẮNG!";
+        } else {
+            result.textContent =
+                "BẠN THUA!";
+        }
+    }
+    else {
+        result.textContent =
+            "NGƯỜI CHƠI " +
+            player +
+            " THẮNG!";
+    }
+    turnText.textContent =
+        "Kết thúc";
+    message.textContent = "";
 }
 /* =========================
         UPDATE TURN
 ========================= */
 function updateTurn() {
     if (currentPlayer === "X") {
-        turnText.textContent = "🌸 Lượt: X";
-    } else {
         turnText.textContent =
-            gameMode === "ai"
-            ? "🤖 Lượt: AI"
-            : "💙 Lượt: O";
+            "Lượt: X";
+    }
+    else {
+        if (gameMode === "ai") {
+            turnText.textContent =
+                "Lượt: AI";
+        }
+        else {
+            turnText.textContent =
+                "Lượt: O";
+        }
     }
 }
 /* =========================
@@ -329,13 +428,23 @@ function checkWin(row, col, player) {
         [1, 1],
         [1, -1]
     ];
-    for (const [dr, dc] of directions) {
+    for (const direction of directions) {
+        const dr = direction[0];
+        const dc = direction[1];
         let count = 1;
         count += countDirection(
-            row, col, dr, dc, player
+            row,
+            col,
+            dr,
+            dc,
+            player
         );
         count += countDirection(
-            row, col, -dr, -dc, player
+            row,
+            col,
+            -dr,
+            -dc,
+            player
         );
         if (count >= 5) {
             return true;
@@ -343,7 +452,16 @@ function checkWin(row, col, player) {
     }
     return false;
 }
-function countDirection(row, col, dr, dc, player) {
+/* =========================
+        COUNT DIRECTION
+========================= */
+function countDirection(
+    row,
+    col,
+    dr,
+    dc,
+    player
+) {
     let count = 0;
     let r = row + dr;
     let c = col + dc;
@@ -364,9 +482,9 @@ function countDirection(row, col, dr, dc, player) {
         CHECK DRAW
 ========================= */
 function checkDraw() {
-    for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-            if (board[r][c] === "") {
+    for (let row = 0; row < SIZE; row++) {
+        for (let col = 0; col < SIZE; col++) {
+            if (board[row][col] === "") {
                 return false;
             }
         }
@@ -374,91 +492,194 @@ function checkDraw() {
     return true;
 }
 /* =========================
-        AI
+        AI MOVE
 ========================= */
 function aiMove() {
     if (gameOver) return;
-    let bestMove = findBestMove();
+    const move = findBestMove();
     makeMove(
-        bestMove.row,
-        bestMove.col,
+        move.row,
+        move.col,
         "O"
     );
 }
 /* =========================
-        AI LOGIC
+        FIND BEST MOVE
 ========================= */
 function findBestMove() {
-    // 1. Nếu AI có thể thắng → thắng ngay
-    for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-            if (board[r][c] === "") {
-                board[r][c] = "O";
-                if (checkWin(r, c, "O")) {
-                    board[r][c] = "";
-                    return {row:r, col:c};
+    /*
+        ƯU TIÊN 1:
+        AI có thể thắng
+    */
+    for (
+        let row = 0;
+        row < SIZE;
+        row++
+    ) {
+        for (
+            let col = 0;
+            col < SIZE;
+            col++
+        ) {
+            if (board[row][col] === "") {
+                board[row][col] = "O";
+                if (
+                    checkWin(
+                        row,
+                        col,
+                        "O"
+                    )
+                ) {
+                    board[row][col] = "";
+                    return {
+                        row: row,
+                        col: col
+                    };
                 }
-                board[r][c] = "";
+                board[row][col] = "";
             }
         }
     }
-    // 2. Nếu người chơi sắp thắng → chặn
-    for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-            if (board[r][c] === "") {
-                board[r][c] = "X";
-                if (checkWin(r, c, "X")) {
-                    board[r][c] = "";
-                    return {row:r, col:c};
+    /*
+        ƯU TIÊN 2:
+        CHẶN NGƯỜI CHƠI
+        Nếu X chỉ cần đi một ô
+        là thắng thì AI sẽ
+        chiếm ô đó.
+    */
+    for (
+        let row = 0;
+        row < SIZE;
+        row++
+    ) {
+        for (
+            let col = 0;
+            col < SIZE;
+            col++
+        ) {
+            if (board[row][col] === "") {
+                board[row][col] = "X";
+                if (
+                    checkWin(
+                        row,
+                        col,
+                        "X"
+                    )
+                ) {
+                    board[row][col] = "";
+                    return {
+                        row: row,
+                        col: col
+                    };
                 }
-                board[r][c] = "";
+                board[row][col] = "";
             }
         }
     }
-    // 3. Tìm nước gần quân của người chơi
-    let candidates = [];
-    for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-            if (board[r][c] === "") {
-                let score =
-                    countNearby(r,c,"O") * 2 +
-                    countNearby(r,c,"X");
-                candidates.push({
-                    row:r,
-                    col:c,
-                    score:score
+    /*
+        ƯU TIÊN 3:
+        Đi gần các quân cờ
+    */
+    let bestMoves = [];
+    let bestScore = -1;
+    for (
+        let row = 0;
+        row < SIZE;
+        row++
+    ) {
+        for (
+            let col = 0;
+            col < SIZE;
+            col++
+        ) {
+            if (board[row][col] !== "") {
+                continue;
+            }
+            let score = 0;
+            /*
+                Ưu tiên gần quân AI
+            */
+            score +=
+                countNearby(
+                    row,
+                    col,
+                    "O"
+                ) * 3;
+            /*
+                Ưu tiên gần quân X
+            */
+            score +=
+                countNearby(
+                    row,
+                    col,
+                    "X"
+                ) * 2;
+            if (score > bestScore) {
+                bestScore = score;
+                bestMoves = [{
+                    row: row,
+                    col: col
+                }];
+            }
+            else if (score === bestScore) {
+                bestMoves.push({
+                    row: row,
+                    col: col
                 });
             }
         }
     }
-    candidates.sort(
-        (a,b) => b.score - a.score
-    );
-    // 4. Nếu bàn trống → đi giữa bàn
-    if (candidates.length === SIZE * SIZE) {
+    /*
+        Nếu bàn hoàn toàn trống:
+        AI chọn trung tâm.
+    */
+    if (
+        bestMoves.length ===
+        SIZE * SIZE
+    ) {
         return {
-            row: Math.floor(SIZE/2),
-            col: Math.floor(SIZE/2)
+            row: 7,
+            col: 7
         };
     }
-    // Chọn một trong những nước tốt nhất
-    let bestScore = candidates[0].score;
-    let bestCandidates =
-        candidates.filter(x => x.score === bestScore);
-    return bestCandidates[
-        Math.floor(Math.random() * bestCandidates.length)
+    /*
+        Chọn ngẫu nhiên
+        trong những nước tốt nhất.
+    */
+    return bestMoves[
+        Math.floor(
+            Math.random() *
+            bestMoves.length
+        )
     ];
 }
 /* =========================
         COUNT NEARBY
 ========================= */
-function countNearby(row, col, player) {
+function countNearby(
+    row,
+    col,
+    player
+) {
     let count = 0;
-    for (let dr = -1; dr <= 1; dr++) {
-        for (let dc = -1; dc <= 1; dc++) {
-            if (dr === 0 && dc === 0) continue;
-            let r = row + dr;
-            let c = col + dc;
+    for (
+        let dr = -1;
+        dr <= 1;
+        dr++
+    ) {
+        for (
+            let dc = -1;
+            dc <= 1;
+            dc++
+        ) {
+            if (
+                dr === 0 &&
+                dc === 0
+            ) {
+                continue;
+            }
+            const r = row + dr;
+            const c = col + dc;
             if (
                 r >= 0 &&
                 r < SIZE &&
@@ -475,10 +696,12 @@ function countNearby(row, col, player) {
 /* =========================
         BACK TO MENU
 ========================= */
-function backMenu() {
+function backToMenu() {
+    gameOver = true;
     game.style.display = "none";
     menu.style.display = "flex";
-    gameOver = true;
+    result.style.display = "none";
+    message.textContent = "";
 }
 </script>
 </body>
